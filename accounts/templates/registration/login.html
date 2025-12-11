@@ -1,0 +1,162 @@
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - MediCarePlus</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        /* 🔵 Animated Gradient Background */
+        body {
+            margin: 0;
+            font-family: "Poppins", sans-serif;
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(-45deg, #0a0f14, #111827, #0d1117, #1f2937);
+            background-size: 400% 400%;
+            animation: gradientMove 12s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Container */
+        .container {
+            width: 400px;
+            background: rgba(22, 27, 34, 0.9);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+        }
+
+        /* Logo */
+        .logo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .logo img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            box-shadow: 0 0 12px #58a6ff;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* Inputs */
+        label {
+            font-size: 14px;
+            color: #bbb;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 15px;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        input:focus {
+            border-color: #58a6ff;
+            box-shadow: 0 0 6px #58a6ff;
+            outline: none;
+        }
+
+        /* Button */
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            background: #238636;
+            color: white;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background: #2ea043;
+        }
+
+        /* Errors */
+        .error-block {
+            color: #ff6b6b;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        /* Footer link */
+        .register-link {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .register-link a {
+            color: #58a6ff;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- 🔵 Logo at the top -->
+    <div class="logo">
+        <img src="{% static 'images/logo.png' %}" alt="Logo">
+        <!-- replace logo.png with your own image -->
+    </div>
+
+    <h2>Login</h2>
+
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="error-block">{{ form.non_field_errors }}</div>
+        {% endif %}
+
+        {{ form.username.label_tag }}
+        {{ form.username }}
+
+        {{ form.password.label_tag }}
+        {{ form.password }}
+
+        <button type="submit" class="btn-submit">Login</button>
+    </form>
+
+    <p class="register-link">
+        Don’t have an account?
+        <a href="{% url 'register' %}">Register here</a>
+    </p>
+
+</div>
+
+</body>
+</html>

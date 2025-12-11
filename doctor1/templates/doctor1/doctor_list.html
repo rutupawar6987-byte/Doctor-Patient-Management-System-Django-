@@ -1,0 +1,110 @@
+
+
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Doctors List - MediCarePlus</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <style>
+        body { background: #f4f7fa; font-family: 'Segoe UI', Tahoma; }
+        .container { max-width: 1100px; margin-top: 50px; margin-bottom: 50px; }
+        .card { border-radius: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
+        .card-header { background-color: #0d6efd; color: white; font-size: 1.9rem; font-weight: 700; border-radius: 15px 15px 0 0; }
+        table thead { background-color: #0d6efd; color: white; }
+        table tbody tr:hover { background-color: #e9f0ff; }
+        .btn-edit { background-color: #ffc107; border: none; color: #212529; }
+        .btn-delete { background-color: #dc3545; border: none; }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <i class="bi bi-person-badge-fill" style="font-size: 2rem;"></i>
+            Doctors List
+        </div>
+
+        <div class="card-body">
+            <div class="d-flex justify-content-end">
+                <a href="{% url 'doctor-add' %}" class="btn btn-success mb-3">
+                    <i class="bi bi-plus-lg"></i> Add Doctor
+                </a>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-bordered text-center align-middle">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Qualification</th>
+                            <th>Specialization</th>
+                            <th>Hospital</th>
+                            <th>Working Time</th>
+                            <th>Ratings</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th style="width: 160px;">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for doctor in doctors %}
+                        <tr>
+                            <td>{{ doctor.id }}</td>
+
+                            <td class="text-start fw-semibold">
+                                Dr. {{ doctor.first_name }} {{ doctor.last_name }}
+                            </td>
+
+                            <td>{{ doctor.qualification }}</td>
+                            <td>{{ doctor.get_specialization_display }}</td>
+                            <td>{{ doctor.hospital }}</td>
+                            <td>{{ doctor.working_time }}</td>
+
+                            <td>
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= doctor.ratings|default:0 %}
+                                        <i class="bi bi-star-fill text-warning"></i>
+                                    {% else %}
+                                        <i class="bi bi-star text-muted"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+
+                            <td>{{ doctor.email }}</td>
+                            <td>{{ doctor.phone }}</td>
+
+                            <td>
+                                <a href="/doctor1/{{ doctor.pk }}/edit/" class="btn btn-edit btn-sm me-2">
+                                    <i class="bi bi-pencil-square"></i> Edit
+                                </a>
+
+                                <a href="{% url 'doctor-delete' doctor.pk %}"
+                                   class="btn btn-delete btn-sm"
+                                   onclick="return confirm('Are you sure?');">
+                                    <i class="bi bi-trash"></i> Delete
+                                </a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="10" class="text-muted fw-semibold">No doctors found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
